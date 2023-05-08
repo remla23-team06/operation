@@ -19,4 +19,4 @@ services:
       - model-training
 
   model-training:
-    image: remla23-team06/model-training:latest
+    image: ghcr.io/remla23-team06/model-training:latest
