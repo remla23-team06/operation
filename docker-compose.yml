@@ -1,12 +1,24 @@
 version: '3'
 
+secrets:
+  cr_pat:
+    external: true
+
+x-set-up:
+  image: ubuntu-22.04
+  environment:
+    - CR_PAT_FILE=/run/secrets/cr_pat
+  command: sh -c "cat $CR_PAT_FILE" | docker login ghcr.io -u $ --password-stdin
+  secrets:
+    - cr_pat
+
 services:
   app:
     image: ghcr.io/remla23-team06/app:latest
     ports:
       - 8080:8080
     environment:
-      - MODEL_SERVICE_URL=http://model-service:8000 
+      - MODEL_SERVICE_URL=http://model-service:8000
     depends_on:
       - model-service
 
