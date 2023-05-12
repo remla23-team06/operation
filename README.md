@@ -2,9 +2,22 @@
 This repository contains all deployment files for the application.
 
 ## Getting Started
-To start the application locally, make sure you have Docker and Docker Compose installed, then run:
-`docker-compose -f services.yml -f deployments.yml up`
-This will start the entire application stack locally.
+To start the application locally, make sure you have Docker and Docker Compose installed.
+Also add an environment variable called `CR_PAT` containing your Github PAT. 
+E.g., in Powershell (on Windows): 
+```powershell
+$env:CR_PAT=<PAT>
+```
+E.g., in Bash (on Linux):
+```bash
+export CR_PAT=<PAT>
+```
+Subsequently, run the following commands:
+
+1. `echo $CR_PAT | docker login ghcr.io -u $ --password-stdin`
+1. `docker compose up -d --pull always`
+
+This will start the entire application stack locally and go to `localhost:8080` to try out the app.
 
 ## Deployment
 *Kubernetes instructions will be added later* 🚧
