@@ -1,17 +1,5 @@
 version: '3'
 
-secrets:
-  cr_pat:
-    external: true
-
-x-set-up:
-  image: ubuntu-22.04
-  environment:
-    - CR_PAT_FILE=/run/secrets/cr_pat
-  command: sh -c "cat $CR_PAT_FILE" | docker login ghcr.io -u $ --password-stdin
-  secrets:
-    - cr_pat
-
 services:
   app:
     image: ghcr.io/remla23-team06/app:latest
@@ -26,7 +14,6 @@ services:
     image: ghcr.io/remla23-team06/model-service:latest
     ports:
       - 8000:8000
-    command: python3 model_server.py
     depends_on:
       - model-training
 
