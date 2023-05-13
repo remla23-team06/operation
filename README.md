@@ -33,3 +33,4 @@ The `deployment.yml` contains `imagePullSecrets` with `regred`
 ## Codebase Overview
 - `docker-compose.yml`: Defines the services that make up the application stack.
 - `README.md`: Provides documentation on how to start the application and deploy it to a cloud provider or Kubernetes cluster.
+- `deployment.yml`: Defines the Kubernetes services with Deployments and Ingress.
