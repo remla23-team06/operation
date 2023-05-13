@@ -20,6 +20,8 @@ spec:
         env:
         - name: MODEL_SERVICE_URL
           value: http://model-service:8080
+      imagePullSecrets:
+        - name: regcred
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -39,7 +41,9 @@ spec:
       - name: model-service
         image: ghcr.io/remla23-team06/model-service
         ports:
-        - containerPort: 8000
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: regcred
 ---
 apiVersion: v1
 kind: Service
@@ -62,8 +66,8 @@ spec:
     app: model-service
   ports:
     - name: http
-      port: 8000
-      targetPort: 8000
+      port: 8080
+      targetPort: 8080
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
