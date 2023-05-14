@@ -13,7 +13,7 @@ services:
   model-service:
     image: ghcr.io/remla23-team06/model-service:latest
     ports:
-      - 8081:8080
+      - 8000:8000
     depends_on:
       - model-training
 
