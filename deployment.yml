@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team06/app:latest
+        image: ghcr.io/remla23-team06/app:kandrio-test-prom-2
         ports:
         - containerPort: 8080
         env:
