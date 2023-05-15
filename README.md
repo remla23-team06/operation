@@ -36,6 +36,23 @@ For now: In order to be authorized to pull the container registries, you need to
 
 The `deployment.yml` contains `imagePullSecrets` with `regcred`
 
+## Monitoring
+Add Prometheus stack to Kubernetes cluster
+
+`helm repo add prom-repo https://prometheus-community.github.io/helm-charts`
+
+Update the Helm repositories
+`helm repo update`
+
+Install Prometheus stack
+`helm install myprom prom-repo/kube-prometheus-stack`
+
+Run service for monitoring
+
+`minikube service myprom-kube-prometheus-sta-prometheus --url`
+
+The `deployment.yml` manifest includes the Kubernetes ServiceMonitor
+
 ## Codebase Overview
 - `docker-compose.yml`: Defines the services that make up the application stack.
 - `README.md`: Provides documentation on how to start the application and deploy it to a cloud provider or Kubernetes cluster.

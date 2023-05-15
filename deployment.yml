@@ -93,3 +93,16 @@ metadata:
   name: my-config
 data:
   model.service.url: "http://model-service-service:8000"
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mymonitor
+  labels:
+    release: myprom
+spec:
+  selector:
+    matchLabels:
+      app: app-service
+  endpoints:
+  - interval: 1s
