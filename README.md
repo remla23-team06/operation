@@ -34,7 +34,7 @@ For now: In order to be authorized to pull the container registries, you need to
 
 `kubectl create secret docker-registry regcred --docker-server=https://ghcr.io --docker-username=<GITHUB_USERNAME> --docker-password=<TOKEN> --docker-email=<GITHUB_EMAIL>`
 
-The `deployment.yml` contains `imagePullSecrets` with `regred`
+The `deployment.yml` contains `imagePullSecrets` with `regcred`
 
 ## Codebase Overview
 - `docker-compose.yml`: Defines the services that make up the application stack.
