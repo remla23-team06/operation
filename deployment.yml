@@ -103,6 +103,6 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: app-service
+      app: app
   endpoints:
   - interval: 1s
