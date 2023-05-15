@@ -101,7 +101,7 @@ kind: ServiceMonitor
 metadata:
   name: mymonitor
   labels:
-    release: myprom
+    release: prom
 spec:
   selector:
     matchLabels:
