@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team06/app:kandrio-test-prom-2
+        image: ghcr.io/remla23-team06/app:radek-test-metrics
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
