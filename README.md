@@ -30,12 +30,6 @@ Use `minikube` to tunnel the Ingress to `localhost` with:
 
 `minikube tunnel`
 
-For now: In order to be authorized to pull the container registries, you need to have access to a token:
-
-`kubectl create secret docker-registry regcred --docker-server=https://ghcr.io --docker-username=<GITHUB_USERNAME> --docker-password=<TOKEN> --docker-email=<GITHUB_EMAIL>`
-
-The `deployment.yml` contains `imagePullSecrets` with `regcred`
-
 ## Monitoring
 Add Prometheus stack to Kubernetes cluster
 
