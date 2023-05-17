@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team06/app:radek-test-metrics
+        image: ghcr.io/remla23-team06/app
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -98,7 +98,7 @@ kind: ServiceMonitor
 metadata:
   name: mymonitor
   labels:
-    release: prom
+    release: myprom
 spec:
   selector:
     matchLabels:
