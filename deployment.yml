@@ -25,8 +25,6 @@ spec:
             configMapKeyRef:
               name: my-config
               key: model.service.url
-      imagePullSecrets:
-        - name: regcred
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -46,16 +44,16 @@ spec:
     spec:
       containers:
       - name: model-service
-        image: ghcr.io/remla23-team06/model-service
+        image: ghcr.io/remla23-team06/model-service:latest
         ports:
         - containerPort: 8000
-      imagePullSecrets:
-        - name: regcred
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: app-service
+  labels:
+    app: app-svc
 spec:
   selector:
     app: app
@@ -93,3 +91,16 @@ metadata:
   name: my-config
 data:
   model.service.url: "http://model-service-service:8000"
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mymonitor
+  labels:
+    release: myprom
+spec:
+  selector:
+    matchLabels:
+      app: app-svc
+  endpoints:
+  - interval: 1s

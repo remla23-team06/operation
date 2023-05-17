@@ -30,11 +30,22 @@ Use `minikube` to tunnel the Ingress to `localhost` with:
 
 `minikube tunnel`
 
-For now: In order to be authorized to pull the container registries, you need to have access to a token:
+## Monitoring
+Add Prometheus stack to Kubernetes cluster
 
-`kubectl create secret docker-registry regcred --docker-server=https://ghcr.io --docker-username=<GITHUB_USERNAME> --docker-password=<TOKEN> --docker-email=<GITHUB_EMAIL>`
+`helm repo add prom-repo https://prometheus-community.github.io/helm-charts`
 
-The `deployment.yml` contains `imagePullSecrets` with `regcred`
+Update the Helm repositories
+`helm repo update`
+
+Install Prometheus stack
+`helm install myprom prom-repo/kube-prometheus-stack`
+
+Run service for monitoring
+
+`minikube service myprom-kube-prometheus-sta-prometheus --url`
+
+The `deployment.yml` manifest includes the Kubernetes ServiceMonitor
 
 ## Codebase Overview
 - `docker-compose.yml`: Defines the services that make up the application stack.
