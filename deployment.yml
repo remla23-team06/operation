@@ -29,6 +29,34 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: app-depl-two
+  labels:
+    app: app-two
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: ghcr.io/remla23-team06/app:with-emojis
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MODEL_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: model.service.url
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: model-service-depl
   labels:
     app: model-service
@@ -59,7 +87,21 @@ spec:
     app: app
   ports:
     - name: http
-      port: 8000
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service-two
+  labels:
+    app: app-svc-two
+spec:
+  selector:
+    app: app-two
+  ports:
+    - name: http
+      port: 8081
       targetPort: 8080
 ---
 apiVersion: v1
