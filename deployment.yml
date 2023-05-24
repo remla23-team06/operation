@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team06/app:latest
+        image: ghcr.io/remla23-team06/app:6.0.2
         ports:
         - containerPort: 8080
         env:
@@ -44,7 +44,7 @@ spec:
     spec:
       containers:
       - name: model-service
-        image: ghcr.io/remla23-team06/model-service:latest
+        image: ghcr.io/remla23-team06/model-service:4.0.1
         ports:
         - containerPort: 8000
 ---
@@ -65,7 +65,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: model-service-service
+  name: model-service
 spec:
   selector:
     app: model-service
@@ -90,7 +90,7 @@ kind: ConfigMap
 metadata:
   name: my-config
 data:
-  model.service.url: "http://model-service-service:8000"
+  model.service.url: "http://model-service:8000"
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
