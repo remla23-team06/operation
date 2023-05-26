@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team06/app:6.0.2
+        image: ghcr.io/remla23-team06/app:without-emojis
         ports:
         - containerPort: 8080
         env:
