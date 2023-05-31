@@ -1,18 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-depl
-  labels:
-    app: app
+  name: app-v1
+  labels: { app: app, version: v1 }
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: app
+    matchLabels: { app: app, version: v1 }
   template:
     metadata:
-      labels:
-        app: app
+      labels: { app: app, version: v1 }
     spec:
       containers:
       - name: app
@@ -29,18 +26,15 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-depl-two
-  labels:
-    app: app-two
+  name: app-v2
+  labels: { app: app, version: v2 }
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: app
+    matchLabels: { app: app, version: v2 }
   template:
     metadata:
-      labels:
-        app: app
+      labels: { app: app, version: v2 }
     spec:
       containers:
       - name: app
@@ -57,7 +51,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: model-service-depl
+  name: model-service
   labels:
     app: model-service
 spec:
@@ -79,26 +73,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service
-  labels:
-    app: app-svc
+  name: app
 spec:
   selector:
     app: app
-  ports:
-    - name: http
-      port: 8080
-      targetPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-service-two
-  labels:
-    app: app-svc-two
-spec:
-  selector:
-    app: app-two
   ports:
     - name: http
       port: 8080
@@ -117,17 +95,6 @@ spec:
     - name: http
       port: 8000
       targetPort: 8000
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: app-ingress
-spec:
-  defaultBackend:
-    service:
-      name: app-service
-      port:
-        number: 8000
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -148,3 +115,55 @@ spec:
       app: model-svc
   endpoints:
   - interval: 1s
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+      - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-entry-service
+spec:
+  gateways:
+    - my-gateway
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: app
+        subset: v1
+      weight: 90
+    - destination:
+        host: app
+        subset: v2
+      weight: 10
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: app
+spec:
+  host: app
+  subsets:
+  - name: v1
+    labels:
+      { app: app, version: v1 }
+  - name: v2
+    labels:
+      { app: app, version: v2 }
