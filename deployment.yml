@@ -144,6 +144,22 @@ spec:
   - "*"
   http:
   - match:
+    - queryParams:
+        version:
+          exact: "2.0.1"
+    route:
+    - destination:
+        host: app
+        subset: v2
+  - match:
+    - queryParams:
+        version:
+          exact: "0.1.1"
+    route:
+    - destination:
+        host: app
+        subset: v1
+  - match:
     - uri:
         prefix: /
     route:
