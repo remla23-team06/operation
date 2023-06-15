@@ -105,7 +105,7 @@
               "uid": "prometheus"
             },
             "editorMode": "code",
-            "expr": "100 * sum(predictions{correct=\"True\"}) / sum(predictions{correct=~\"True|False\"})\n",
+            "expr": "100 * validations_total{is_correct=\"True\"} / predictions_total{is_correct=\"True|False\"}",
             "legendFormat": "__auto",
             "range": true,
             "refId": "A"
@@ -198,7 +198,7 @@
               "uid": "prometheus"
             },
             "editorMode": "code",
-            "expr": "100 * sum(predictions{correct=\"False\"}) / sum(predictions{correct=~\"True|False\"})",
+            "expr": "100 * validations_total{is_correct=\"False\"} / predictions_total{is_correct=\"True|False\"}",
             "legendFormat": "__auto",
             "range": true,
             "refId": "A"
