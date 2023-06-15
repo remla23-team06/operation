@@ -25,28 +25,16 @@ Subsequently, run the following commands:
 
 This will start the entire application stack locally and go to `localhost:8080` to try out the app.
 
-## Enable Prometheus for Monitoring
-Add the Prometheus stack to the Kubernetes cluster
-```
-helm repo add prom-repo https://prometheus-community.github.io/helm-charts
-```
 
-Update the Helm repositories
-```
-helm repo update
-```
+## Requirements
 
-Install the Prometheus stack:
-```
-helm install myprom prom-repo/kube-prometheus-stack
-```
+Make sure that istio has been downloaded and installed using `istioctl install`.
+Subsequently add:
+- Grafana `kubectl apply -f <istio folder>/samples/addons/grafana.yaml`
+- Prometheus `kubectl apply -f <istio folder>/samples/addons/prometheus.yaml`
+- Jaeger `kubectl apply -f <istio folder>/samples/addons/jaeger.yaml`
+- Kiali `kubectl apply -f <istio folder>/samples/addons/kiali.yaml`
 
-Run service for monitoring:
-```
-minikube service myprom-kube-prometheus-sta-prometheus --url
-```
-
-The `deployment.yml` manifest includes the `ServiceMonitor` custom resource.
 
 ## Deployment
 
