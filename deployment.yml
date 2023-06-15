@@ -10,7 +10,9 @@ spec:
   template:
     metadata:
       labels: { app: app, version: v1 }
-    spec:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
       containers:
       - name: app
         image: ghcr.io/remla23-team06/app:without-emojis
@@ -36,7 +38,9 @@ spec:
   template:
     metadata:
       labels: { app: app, version: v2 }
-    spec:
+      annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "8080"
       containers:
       - name: app
         image: ghcr.io/remla23-team06/app:with-emojis
@@ -104,19 +108,6 @@ metadata:
   name: my-config
 data:
   model.service.url: "http://model-service:8000"
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: mymonitor
-  labels:
-    release: myprom
-spec:
-  selector:
-    matchLabels:
-      app: model-svc
-  endpoints:
-  - interval: 1s
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
