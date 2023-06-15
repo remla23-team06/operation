@@ -10,9 +10,7 @@ spec:
   template:
     metadata:
       labels: { app: app, version: v1 }
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
+    spec:
       containers:
       - name: app
         image: ghcr.io/remla23-team06/app:without-emojis
@@ -38,9 +36,7 @@ spec:
   template:
     metadata:
       labels: { app: app, version: v2 }
-      annotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/port: "8080"
+    spec:
       containers:
       - name: app
         image: ghcr.io/remla23-team06/app:with-emojis
@@ -69,6 +65,9 @@ spec:
     metadata:
       labels:
         app: model-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
     spec:
       containers:
       - name: model-service
