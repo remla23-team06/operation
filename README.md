@@ -25,18 +25,21 @@ Subsequently, run the following commands:
 
 This will start the entire application stack locally and go to `localhost:8080` to try out the app.
 
+## Kubernetes
 
-## Requirements
+### Requirements
 
-Make sure that istio has been downloaded and installed using `istioctl install`.
-Subsequently add:
-- Grafana `kubectl apply -f <istio folder>/samples/addons/grafana.yaml`
-- Prometheus `kubectl apply -f <istio folder>/samples/addons/prometheus.yaml`
-- Jaeger `kubectl apply -f <istio folder>/samples/addons/jaeger.yaml`
-- Kiali `kubectl apply -f <istio folder>/samples/addons/kiali.yaml`
+Make sure that istio has been downloaded and installed in your cluster using `istioctl install`.
 
+Then, install the following tools:
+- Grafana: `kubectl apply -f <istio-instal-dir>/samples/addons/grafana.yaml`
+- Prometheus: `kubectl apply -f <istio-instal-dir>/samples/addons/prometheus.yaml`
+- Jaeger: `kubectl apply -f <istio-instal-dir>/samples/addons/jaeger.yaml`
+- Kiali: `kubectl apply -f <istio-instal-dir>/samples/addons/kiali.yaml`
 
-## Deployment
+_**NOTE**_: In the steps above, replace `<istio-instal-dir>` with the path to the directory where you have installed `istioctl` (e.g: `$HOME/istio-1.17.2`).
+
+### Deployment
 
 To deploy the application to a Kubernetes cluster, run:
 ```
