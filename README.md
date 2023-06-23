@@ -46,6 +46,31 @@ To deploy the application to a Kubernetes cluster, run:
 kubectl apply -f deployment.yml
 ```
 
+### Volumes and Models
+
+If you want to use your own machine learning models in the application, you can use mounted `Volumes` in the `model-service` in order to overwrite the default ones. Here's what you need to do:
+1. create a directory: `mkdir /path/to/my/models`
+2. in the created directory, place your BoW sentiment model and your Classifier sentiment model, named `c1_BoW_Sentiment_Model.pkl` and `c2_Classifier_Sentiment_Model` respectively.
+3. update the `spec.template.spec` field of the `model-service` Deployment in the `deployment.yml` file with:
+    ```
+    spec:
+      containers:
+      - name: model-service
+        image: ghcr.io/remla23-team06/model-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+          - name: model-volume
+            mountPath: /models
+      volumes:
+        - name: model-volume
+          hostPath:
+            path: /path/to/my/models
+    ```
+
+### Use the Web-App
+
 To tunnel the Ingress to `localhost`, run:
 
 ```
