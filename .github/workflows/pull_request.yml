@@ -32,6 +32,9 @@ jobs:
         run: |
           minikube kubectl -- apply -f "$ISTIO_INSTALL/istio-1.17.2/samples/addons/grafana.yaml"
           minikube kubectl -- apply -f "$ISTIO_INSTALL/istio-1.17.2/samples/addons/prometheus.yaml"
+      - name: Apply Helm chart
+        run: |
+          helm install sentiment-chart oci://ghcr.io/remla23-team06/operation/sentiment-chart
       - name: Apply deployment file
         run: |
           minikube kubectl -- apply -f manual-deployment.yml
