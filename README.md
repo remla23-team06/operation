@@ -41,9 +41,10 @@ _**NOTE**_: In the steps above, replace `<istio-instal-dir>` with the path to th
 
 ### Deployment
 
+### Option 1: Use Kubernetes deployment files
 To deploy the application to a Kubernetes cluster, run:
 ```
-kubectl apply -f deployment.yml
+kubectl apply -f manual-deployment.yml
 ```
 
 ### Volumes and Models
@@ -81,3 +82,15 @@ To access the web-page of the application, open your browser and go to:
 ```
 http://localhost
 ```
+
+### Option 2: Use Helm chart (recommended)
+To deploy the application to a Kubernetes cluster, run:
+```
+helm install sentiment-chart oci://ghcr.io/remla23-team06/operation/sentiment-chart
+```
+
+To access the web-page of the application, open your browser and go to: 
+```
+http://localhost
+```
+
