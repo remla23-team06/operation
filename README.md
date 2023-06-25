@@ -39,15 +39,13 @@ Then, install the following tools:
 
 _**NOTE**_: In the steps above, replace `<istio-instal-dir>` with the path to the directory where you have installed `istioctl` (e.g: `$HOME/istio-1.17.2`).
 
-### Deployment
-
-### Option 1: Use Kubernetes deployment files
-To deploy the application to a Kubernetes cluster, run:
+### Deployment Option 1: Use Kubernetes deployment files
+To manually deploy the application to a Kubernetes cluster, run:
 ```
 kubectl apply -f manual-deployment.yml
 ```
 
-### Volumes and Models
+#### Volumes and Models
 
 If you want to use your own machine learning models in the application, you can use mounted `Volumes` in the `model-service` in order to overwrite the default ones. Here's what you need to do:
 1. create a directory: `mkdir /path/to/my/models`
@@ -70,7 +68,18 @@ If you want to use your own machine learning models in the application, you can 
             path: /path/to/my/models
     ```
 
-### Use the Web-App
+### Deployment Option 2: Use Helm chart (recommended)
+To deploy the application to a Kubernetes cluster, run:
+```
+helm install sentiment-chart oci://ghcr.io/remla23-team06/operation/sentiment-chart
+```
+
+To access the web-page of the application, open your browser and go to: 
+```
+http://localhost
+```
+
+### Access the deployed Web-App
 
 To tunnel the Ingress to `localhost`, run:
 
@@ -82,15 +91,3 @@ To access the web-page of the application, open your browser and go to:
 ```
 http://localhost
 ```
-
-### Option 2: Use Helm chart (recommended)
-To deploy the application to a Kubernetes cluster, run:
-```
-helm install sentiment-chart oci://ghcr.io/remla23-team06/operation/sentiment-chart
-```
-
-To access the web-page of the application, open your browser and go to: 
-```
-http://localhost
-```
-
