@@ -34,7 +34,7 @@ jobs:
           minikube kubectl -- apply -f "$ISTIO_INSTALL/istio-1.17.2/samples/addons/prometheus.yaml"
       - name: Apply deployment file
         run: |
-          minikube kubectl -- apply -f deployment.yml
+          minikube kubectl -- apply -f manual-deployment.yml
       - name: Retrieve pod status for 2 minutes
         run: |
           start_time=$(date +%s)
