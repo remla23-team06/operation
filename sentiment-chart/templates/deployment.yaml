@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-v1
+  labels: { app: app, version: v1 }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: app, version: v1 }
+  template:
+    metadata:
+      labels: { app: app, version: v1 }
+    spec:
+      containers:
+      - name: app
+        image: ghcr.io/remla23-team06/app:without-emojis
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MODEL_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: model.service.url
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-v2
+  labels: { app: app, version: v2 }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: app, version: v2 }
+  template:
+    metadata:
+      labels: { app: app, version: v2 }
+    spec:
+      containers:
+      - name: app
+        image: ghcr.io/remla23-team06/app:with-emojis
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MODEL_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: model.service.url
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-service
+  labels:
+    app: model-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-service
+  template:
+    metadata:
+      labels:
+        app: model-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+    spec:
+      containers:
+      - name: model-service
+        image: ghcr.io/remla23-team06/model-service:5.2.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
