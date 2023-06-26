@@ -1,0 +1,31 @@
+# Exclude development-related files and directories
+.git
+.vscode
+.idea
+*.swp
+*.bak
+
+# Exclude build and package artifacts
+dist/
+build/
+*.tar.gz
+*.zip
+
+# Exclude test files and data
+test/
+tests/
+*.test
+
+# Exclude documentation files
+docs/
+README.md
+LICENSE
+
+# Exclude environment-specific files
+values.prod.yaml
+config.prod.yaml
+
+# Exclude other unnecessary files
+*.log
+.svn
+.DS_Store

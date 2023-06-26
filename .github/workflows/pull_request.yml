@@ -1,0 +1,57 @@
+name: Pull requests
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  docker_build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker Services
+        run: docker compose up --no-start --pull always --build
+
+  deployment_check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Start minikube
+        id: minikube
+        uses: medyagh/setup-minikube@master
+      - name: Download Istio
+        run: |
+          curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.2 sh -
+          echo "$PWD/istio-1.17.2/bin" >> "$GITHUB_PATH"
+          echo "ISTIO_INSTALL=$PWD" >> "$GITHUB_ENV"
+      - name: Install Istio
+        run: |
+          echo "$GITHUB_PATH"
+          istioctl install -y
+      - name: Add Prometheus and Grafana
+        run: |
+          minikube kubectl -- apply -f "$ISTIO_INSTALL/istio-1.17.2/samples/addons/grafana.yaml"
+          minikube kubectl -- apply -f "$ISTIO_INSTALL/istio-1.17.2/samples/addons/prometheus.yaml"
+      - name: Apply Helm chart
+        run: |
+          helm install sentiment-chart oci://ghcr.io/remla23-team06/operation/sentiment-chart
+      - name: Apply deployment file
+        run: |
+          minikube kubectl -- apply -f manual-deployment.yml
+      - name: Retrieve pod status for 2 minutes
+        run: |
+          start_time=$(date +%s)
+          end_time=$((start_time + 120))  # 120 seconds = 2 minutes
+
+          while [ $(date +%s) -lt $end_time ]; do
+            minikube kubectl -- get pods
+            sleep 1  # Adjust the sleep duration if needed
+          done
+      - name: Check deployment status
+        run: |
+          not_running_pods=$(kubectl get pods --namespace=default --field-selector=status.phase!=Running -o jsonpath='{.items[*].metadata.name}')
+          if [[ -n $not_running_pods ]]; then
+            echo "Error: Not all pods are running."
+            echo "Not running pods: $not_running_pods"
+            exit 1
+          fi
