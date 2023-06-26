@@ -39,18 +39,11 @@ Then, install the following tools:
 
 _**NOTE**_: In the steps above, replace `<istio-instal-dir>` with the path to the directory where you have installed `istioctl` (e.g: `$HOME/istio-1.17.2`).
 
-### Deployment Option 1: Use Kubernetes deployment files
-To manually deploy the application to a Kubernetes cluster, run:
-```
-kubectl apply -f manual-deployment.yml
-```
-
-#### Volumes and Models
-
+### Optional: Volumes and Models (for manual deployment)
 If you want to use your own machine learning models in the application, you can use mounted `Volumes` in the `model-service` in order to overwrite the default ones. Here's what you need to do:
-1. create a directory: `mkdir /path/to/my/models`
-2. in the created directory, place your BoW sentiment model and your Classifier sentiment model, named `c1_BoW_Sentiment_Model.pkl` and `c2_Classifier_Sentiment_Model` respectively.
-3. update the `spec.template.spec` field of the `model-service` Deployment in the `deployment.yml` file with:
+1. Create a directory: `mkdir /path/to/my/models`
+2. In the created directory, place your BoW sentiment model and your Classifier sentiment model, named `c1_BoW_Sentiment_Model.pkl` and `c2_Classifier_Sentiment_Model` respectively.
+3. Update the `spec.template.spec` field of the `model-service` Deployment in the `manual-deployment.yml` file with:
     ```
     spec:
       containers:
@@ -68,25 +61,26 @@ If you want to use your own machine learning models in the application, you can 
             path: /path/to/my/models
     ```
 
+
+### Deployment Option 1: Use Kubernetes deployment files
+To manually deploy the application to a Kubernetes cluster, run:
+```
+kubectl apply -f manual-deployment.yml
+```
+
 ### Deployment Option 2: Use Helm chart (recommended)
 To deploy the application to a Kubernetes cluster, run:
 ```
 helm install sentiment-chart oci://ghcr.io/remla23-team06/operation/sentiment-chart
 ```
 
-To access the web-page of the application, open your browser and go to: 
-```
-http://localhost
-```
-
-### Access the deployed Web-App
-
+### Tunnel the connection
 To tunnel the Ingress to `localhost`, run:
-
 ```
 minikube tunnel
 ```
 
+### Access the deployed Web-App
 To access the web-page of the application, open your browser and go to: 
 ```
 http://localhost

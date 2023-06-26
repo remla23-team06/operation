@@ -71,7 +71,7 @@ spec:
     spec:
       containers:
       - name: model-service
-        image: ghcr.io/remla23-team06/model-service:5.2.0
+        image: ghcr.io/remla23-team06/model-service:6.0.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
@@ -137,7 +137,7 @@ spec:
   - match:
     - queryParams:
         version:
-          exact: "2.0.1"
+          exact: "with-emojis"
     route:
     - destination:
         host: app
@@ -145,7 +145,7 @@ spec:
   - match:
     - queryParams:
         version:
-          exact: "0.1.1"
+          exact: "without-emojis"
     route:
     - destination:
         host: app
