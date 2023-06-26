@@ -64,7 +64,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "",
+      "description": "The number of predictions served by the model.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -139,11 +139,20 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "review_app_requests_total",
+          "expr": "predictions_total{sender=\"without-emojis\"}",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "predictions_total{sender=\"with-emojis\"}",
+          "hide": false,
+          "refId": "B"
         }
       ],
-      "title": "Total number of requests to the Review app",
+      "title": "Predictions",
       "type": "timeseries"
     },
     {
@@ -151,6 +160,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
+      "description": "The number of validations that are correct/incorrect.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -225,11 +235,25 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "request_processing_seconds",
-          "refId": "Summary"
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "validations_total{sender=\"with-emojis\"}",
+          "instant": false,
+          "legendFormat": "",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "validations_total{sender=\"without-emojis\"}",
+          "hide": false,
+          "refId": "B"
         }
       ],
-      "title": "Time spent processing a review request",
+      "title": "Validations",
       "type": "timeseries"
     },
     {
@@ -237,6 +261,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
+      "description": "Distribution of review ratings by correctness",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -311,11 +336,16 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "review_rating",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "histogram_quantile(0.5, sum(rate(review_correctness_distribution_bucket[$__rate_interval])) by (le))",
+          "format": "time_series",
+          "instant": false,
+          "range": true,
           "refId": "A"
         }
       ],
-      "title": "Distribution of review ratings",
+      "title": "Review accuracy histogram",
       "type": "timeseries"
     },
     {
@@ -323,6 +353,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
+      "description": "Accuracy rate of rating predictions",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -397,11 +428,20 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "review_prediction_accuracy",
-          "refId": "Gauge"
+          "expr": "review_prediction_accuracy{sender=\"without-emojis\"}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "review_prediction_accuracy{sender=\"with-emojis\"}",
+          "hide": false,
+          "refId": "B"
         }
       ],
-      "title": "Accuracy rate of rating predictions",
+      "title": "Review prediction accuracy",
       "type": "timeseries"
     },
     {
@@ -409,6 +449,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
+      "description": "Distribution of review ratings",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -483,11 +524,23 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "review_correctness_distribution",
-          "refId": "Histogram"
+          "editorMode": "code",
+          "expr": "review_rating_total{sender=\"with-emojis\"}",
+          "legendFormat": "",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "review_rating_total{sender=\"without-emojis\"}",
+          "hide": false,
+          "refId": "B"
         }
       ],
-      "title": "Distribution of review ratings by correctness",
+      "title": "Review ratings",
       "type": "timeseries"
     },
     {
@@ -607,6 +660,6 @@
   "timezone": "",
   "title": "app dashboard",
   "uid": "ad0b9a07-9a80-4db4-a66c-dd9c271a435f",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
