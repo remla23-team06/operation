@@ -85,3 +85,27 @@ To access the web-page of the application, open your browser and go to:
 ```
 http://localhost
 ```
+
+If you're using Linux and you're having trouble getting the above to work, then run:
+```bash
+minikube service istio-ingressgateway -n istio-system
+```
+This will show a number of different ports for the Istio `Ingress Gateway`. The output should look something like tihs:
+```
+|--------------|----------------------|-------------------|---------------------------|
+|  NAMESPACE   |         NAME         |    TARGET PORT    |            URL            |
+|--------------|----------------------|-------------------|---------------------------|
+| istio-system | istio-ingressgateway | status-port/15021 | http://192.168.49.2:30693 |
+|              |                      | http2/80          | http://192.168.49.2:31005 |
+|              |                      | https/443         | http://192.168.49.2:31659 |
+|--------------|----------------------|-------------------|---------------------------|
+[istio-system istio-ingressgateway status-port/15021
+http2/80
+https/443 http://192.168.49.2:30693
+http://192.168.49.2:31005
+http://192.168.49.2:31659]
+```
+
+You should copy and paste the URL that corresponds to target port: `http2/80`. In the example above, that is: `http://192.168.49.2:31005`.
+
+**_NOTE_**: Don't use the URL from the above example as is. The _host_ and _port_ displayed on your system will most likely **be different**.
