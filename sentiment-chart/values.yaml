@@ -2,5 +2,5 @@ virtualservice:
   spec:
     http:
       route:
-        weight1: 0 # 90
-        weight2: 100 # 10
+        weight1: 80
+        weight2: 20
