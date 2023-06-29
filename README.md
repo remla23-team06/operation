@@ -34,8 +34,6 @@ Make sure that istio has been downloaded and installed in your cluster using `is
 Then, install the following tools:
 - Grafana: `kubectl apply -f <istio-instal-dir>/samples/addons/grafana.yaml`
 - Prometheus: `kubectl apply -f <istio-instal-dir>/samples/addons/prometheus.yaml`
-- Jaeger: `kubectl apply -f <istio-instal-dir>/samples/addons/jaeger.yaml`
-- Kiali: `kubectl apply -f <istio-instal-dir>/samples/addons/kiali.yaml`
 
 _**NOTE**_: In the steps above, replace `<istio-instal-dir>` with the path to the directory where you have installed `istioctl` (e.g: `$HOME/istio-1.17.2`).
 
